@@ -10,9 +10,9 @@ One of the use cases is optimizing development-time performance when using watch
 
 ### Splitting for production
 
-You could also use this as a production-time plugin in place of the (currently buggy) AggressiveSplittingPlugin. The main difference is that the default ChunkSplittingPlugin's *segregator* allows you to configure the maximum number of modules per file, not the maximum and minimum size of each chunk. 
+You could also use this as a production-time plugin in place of the (currently buggy) *AggressiveSplittingPlugin*. The main difference is that the default ChunkSplittingPlugin's *segregator* allows you to configure the maximum number of modules per file, not the maximum and minimum size of each chunk. 
 
-However, the splitting behavior is entirely configurable, via the `segregator` parameter, which must be a function when provided. See [Customizing new chunks](#Customizing_new_chunks) for details.
+However, the splitting behavior is entirely configurable, via the `segregator` parameter, which must be a function when provided. See [Customizing new chunks](#customizing-the-contents-of-new-chunks) for details.
 
 ## Usage
 
@@ -35,8 +35,8 @@ module.exports = {
 
 The minimal numbers for respectful options are:
 
-- `maxModulesPerChunk` 1 (one chunk per each module)
-- `maxModulesPerEntry` 0 (entry will only contain the Webpack manifest)
+- `maxModulesPerChunk: 1` one chunk per each module
+- `maxModulesPerEntry: 0` entry will only contain the Webpack manifest
 
 ### Configuring generated chunk names
 
