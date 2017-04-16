@@ -1,5 +1,7 @@
 # ChunkSplittingPlugin for Webpack
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/niieani/chunk-splitting-plugin.svg)](https://greenkeeper.io/)
+
 Arbitrarily split your Webpack chunks and bundles into smaller pieces.
 
 [![asciicast](https://asciinema.org/a/5kro40za9b37eyeldzeuyjtx5.png)](https://asciinema.org/a/5kro40za9b37eyeldzeuyjtx5)
