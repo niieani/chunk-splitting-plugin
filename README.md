@@ -3,7 +3,6 @@
 Arbitrarily split your Webpack chunks and bundles into smaller pieces.
 
 [![asciicast](https://asciinema.org/a/5kro40za9b37eyeldzeuyjtx5.png)](https://asciinema.org/a/5kro40za9b37eyeldzeuyjtx5)
-
 ## Uses
 
 ### Watch and HMR
@@ -56,7 +55,7 @@ new ChunkSplittingPlugin({
 })
 ```
 
-You could, for example use `maxModulesPerChunk: 1` and name each chunk like the module it contains to simulate an unbundled environment, similarl JSPM or SystemJS.
+You could, for example use `maxModulesPerChunk: 1` and name each chunk like the module it contains to simulate an unbundled environment, similar to JSPM or SystemJS.
 
 ### Customizing the contents of new chunks
 
