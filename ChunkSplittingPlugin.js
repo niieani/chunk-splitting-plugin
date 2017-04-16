@@ -58,11 +58,15 @@ function breakChunksIntoPieces(chunksToSplit, compilation, {
   maxModulesPerEntry = 1,
   segregator = 
     ({modules}, isEntry) => {
+      const firstChunkModulesCount = isEntry ? maxModulesPerEntry : maxModulesPerChunk
+      if (modules.length <= firstChunkModulesCount) {
+        // no need to process this chunk
+        return []
+      }
       // any modules that aren't returned here
       // will remain in the original chunk
       const extractableModules = modules.slice(maxModulesPerChunk)
       // entry chunk has to be the length of maxModulesPerEntry:
-      const firstChunkModulesCount = isEntry ? maxModulesPerEntry : maxModulesPerChunk
       return [
         extractableModules.slice(0, firstChunkModulesCount),
         ...segregate(extractableModules.slice(firstChunkModulesCount), maxModulesPerChunk)
@@ -77,12 +81,6 @@ function breakChunksIntoPieces(chunksToSplit, compilation, {
   return flatMap(chunksToSplit, chunk => {
     const async = !chunk.isInitial()
     const isEntry = chunk.hasRuntime()
-    const maxModules = isEntry ? maxModulesPerEntry : maxModulesPerChunk
-
-    if (chunk.modules.length <= maxModules) {
-      // no need to process this chunk
-      return []
-    }
 
     const freshChunkModuleGroups = segregator(chunk, isEntry).filter(moduleGroup => !!moduleGroup.length)
     let previousFreshChunk
