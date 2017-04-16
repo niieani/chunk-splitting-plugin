@@ -1,0 +1,6 @@
+// Place your settings in this file to overwrite default and user settings.
+{
+    "licenser.license": "MIT",
+    "licenser.author": "Bazyli Brzóska",
+    "licenser.projectName": "ChunkSplittingPlugin"
+}

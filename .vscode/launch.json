@@ -1,0 +1,44 @@
+{
+    // Use IntelliSense to learn about possible Node.js debug attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Webpack",
+        "program": "${workspaceRoot}/node_modules/.bin/webpack"
+      },
+      {
+        "type": "node",
+        "request": "launch",
+        "name": "Launch Webpack Server",
+        "program": "${workspaceRoot}/node_modules/.bin/webpack-dev-server",
+        "args": [
+          "--inline",
+          "--hot"
+        ]
+      },
+      {
+        "type": "node",
+        "request": "attach",
+        "name": "Attach (Inspector Protocol)",
+        "port": 9229,
+        "protocol": "inspector"
+      },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch File",
+            "program": "${file}"
+        },
+        {
+            "type": "node",
+            "request": "attach",
+            "name": "Attach to Port",
+            "address": "localhost",
+            "port": 5858
+        }
+    ]
+}
