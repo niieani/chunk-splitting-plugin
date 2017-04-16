@@ -1,10 +1,11 @@
 {
   "name": "chunk-splitting-plugin",
-  "version": "1.0.0",
   "engines": {
     "node": ">=7"
   },
-  "files": ["ChunkSplittingPlugin.js"],
+  "files": [
+    "ChunkSplittingPlugin.js"
+  ],
   "main": "ChunkSplittingPlugin.js",
   "author": {
     "name": "Bazyli Brzóska",
@@ -25,5 +26,6 @@
     "html-webpack-plugin": "^2.28.0",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.2"
-  }
+  },
+  "version": "1.0.0"
 }
