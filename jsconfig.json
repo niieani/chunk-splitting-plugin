@@ -1,0 +1,14 @@
+{
+  "typeAcquisition": {
+    "enable": true
+  },
+  "files": [
+    "ChunkSplittingPlugin.js"
+  ],
+  "compilerOptions": {
+    "checkJs": true,
+    "lib": [
+      "esnext"
+    ]
+  }
+}
