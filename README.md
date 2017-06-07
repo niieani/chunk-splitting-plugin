@@ -41,6 +41,16 @@ The minimal numbers for respectful options are:
 - `maxModulesPerChunk: 1` one chunk per each module
 - `maxModulesPerEntry: 0` entry will only contain the Webpack manifest
 
+### The correct order of loading chunks
+
+If you'd like to manually load chunks (i.e. hand-craft the `index.html`), you need to load all the parts first, and finally the entry, which will execute the code. Like this:
+
+- chunk-part-1.bundle.js
+- chunk-part-2.bundle.js
+- chunk-part-3.bundle.js
+- chunk-part-4.bundle.js
+- chunk.bundle.js
+
 ### Configuring generated chunk names
 
 By default, new chunks will be named `{CHUNK_NAME}-part-{#NEW_CHUNK_NUMBER}`. 
@@ -66,17 +76,17 @@ You can customize the logic by which the plugin decides which modules end up in 
 ```js
 new ChunkSplittingPlugin({
   segregator: (chunk, isEntry) => {
-    // Source modules are in the chunk.modules Array.
-    // You must return an Array of Arrays that contain modules from the chunk.
+    // Source modules are in the chunk.modulesIterable Set.
+    // You must return an Array of Sets that contain modules from the chunk.
     // New chunks will be created, based on each group of modules returned.
     // If 'isEntry' is true, the first returned group
     // will become the new entry chunk.
 
     // Any modules that aren't returned here
     // will remain in the original chunk.
-
+    const modules = Array.from(chunk.modulesIterable)
     // For example:
-    return [chunk.modules.slice(3, 2), chunk.modules.slice(5)]
+    return [new Set(modules.slice(3, 2)), new Set(modules.slice(5))]
     // will cause:
     // - the original chunk to contain the first 3 modules
     // - create two new chunks:

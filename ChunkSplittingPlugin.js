@@ -1,6 +1,68 @@
+// @ts-check
 "use strict"
 
 const {chunk: segregate, flatMap} = require('lodash')
+
+// UTILITY:
+/**
+ * Like Array.prototype.slice, but for Sets
+ * @param {Set<any>} set 
+ * @param {number} skip
+ * @param {number} count 
+ */
+function sliceSet(set, skip = 0, count = set.size - skip) {
+  const iterator = set.values()
+  const output = new Set()
+  while (count >= 0 && count--) {
+    while (skip >= 0 && skip--) {
+      iterator.next()
+    }
+    const {done, value} = iterator.next()
+    if (done) {
+      return output
+    }
+    output.add(value)
+  }
+  return output
+}
+
+/**
+ * Segregates / divides a set (like lodash.segregate, but for Sets) into even parts
+ * @param {Set<any>} set 
+ * @param {number} setSize 
+ * @returns {Array<Set<any>>}
+ */
+function divideSet(set, setSize) {
+  if (!setSize) {
+    throw new Error(`Set Division by 0`)
+  }
+  let thisSet = new Set()
+  let remainingItems = setSize
+  const output = [thisSet]
+  const iterator = set.values()
+  for (const value of iterator) {
+    if (remainingItems === 0) {
+      thisSet = new Set()
+      remainingItems = setSize
+      output.push(thisSet)
+    }
+    thisSet.add(value)
+    remainingItems--
+  }
+  return output
+}
+
+/**
+ * Ensures a number is padded with a certain amount of leading characters
+ * @param {number} number 
+ * @param {number} minLength 
+ * @param {string} padWith 
+ */
+function leadingZeros(number, minLength = 0, padWith = '0') {
+  const stringNumber = number.toString()
+  const paddingLength = minLength - stringNumber.length
+  return paddingLength > 0 ? `${padWith.repeat(paddingLength)}${stringNumber}` : stringNumber
+}
 
 function setOnlyParent(childChunk, parentChunk) {
   // set parentChunk as new sole parent
@@ -11,7 +73,7 @@ function setOnlyParent(childChunk, parentChunk) {
   }
 }
 
-// from CommonsChunkPlugin:
+// methods similar to CommonsChunkPlugin internals:
 function extractModulesAndReturnAffectedChunks(reallyUsedModules, usedChunks) {
   const affectedChunksSet = new Set()
   reallyUsedModules.forEach(
@@ -32,7 +94,10 @@ function makeTargetChunkParentOfAffectedChunks(childChunks, parentChunk) {
 // from CommonsChunkPlugin (async methods):
 function moveExtractedChunkBlocksToTargetChunk(chunks, targetChunk) {
   chunks.forEach(chunk => chunk.blocks.forEach(block => {
-    block.chunks.unshift(targetChunk)
+    // https://github.com/webpack/webpack/commit/7834e6cd570317d3e81c613b98c60defc85c1001
+    if (block.chunks.indexOf(targetChunk) === -1) {
+      block.chunks.unshift(targetChunk)
+    }
     targetChunk.addBlock(block)
   }))
 }
@@ -53,23 +118,26 @@ function extractOriginsOfChunksWithExtractedModules(chunks, reason) {
 }
 
 function breakChunksIntoPieces(chunksToSplit, compilation, {
-  getPartName = (sourceChunk, idx) => sourceChunk.name && `${sourceChunk.name}-part-${idx + 1}`,
+  getPartName = (sourceChunk, idx) => sourceChunk.name && `${sourceChunk.name}-part-${leadingZeros(idx + 1, 2)}`,
   maxModulesPerChunk = 100,
   maxModulesPerEntry = 1,
   segregator = 
-    ({modules}, isEntry) => {
+    ({modulesIterable}, isEntry) => {
       const firstChunkModulesCount = isEntry ? maxModulesPerEntry : maxModulesPerChunk
-      if (modules.length <= firstChunkModulesCount) {
+      if (modulesIterable.size <= firstChunkModulesCount) {
         // no need to process this chunk
         return []
       }
       // any modules that aren't returned here
       // will remain in the original chunk
-      const extractableModules = modules.slice(maxModulesPerChunk)
+      const extractableModules = sliceSet(modulesIterable, maxModulesPerChunk)
       // entry chunk has to be the length of maxModulesPerEntry:
       return [
-        extractableModules.slice(0, firstChunkModulesCount),
-        ...segregate(extractableModules.slice(firstChunkModulesCount), maxModulesPerChunk)
+        sliceSet(extractableModules, 0, firstChunkModulesCount),
+        ...divideSet(
+          sliceSet(extractableModules, firstChunkModulesCount),
+          maxModulesPerChunk
+        )
       ]
     }
 } = {}) {
@@ -82,7 +150,7 @@ function breakChunksIntoPieces(chunksToSplit, compilation, {
     const async = !chunk.isInitial()
     const isEntry = chunk.hasRuntime()
 
-    const freshChunkModuleGroups = segregator(chunk, isEntry).filter(moduleGroup => !!moduleGroup.length)
+    const freshChunkModuleGroups = segregator(chunk, isEntry).filter(moduleGroup => !!moduleGroup.size)
     let previousFreshChunk
 
     // return new chunks
