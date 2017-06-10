@@ -93,13 +93,18 @@ function makeTargetChunkParentOfAffectedChunks(childChunks, parentChunk) {
 
 // from CommonsChunkPlugin (async methods):
 function moveExtractedChunkBlocksToTargetChunk(chunks, targetChunk) {
-  chunks.forEach(chunk => chunk.blocks.forEach(block => {
-    // https://github.com/webpack/webpack/commit/7834e6cd570317d3e81c613b98c60defc85c1001
-    if (block.chunks.indexOf(targetChunk) === -1) {
-      block.chunks.unshift(targetChunk)
+  chunks.forEach(chunk => {
+    if (chunk === targetChunk) {
+      return
     }
-    targetChunk.addBlock(block)
-  }))
+    chunk.blocks.forEach(block => {
+      // https://github.com/webpack/webpack/commit/7834e6cd570317d3e81c613b98c60defc85c1001
+      if (block.chunks.indexOf(targetChunk) === -1) {
+        block.chunks.unshift(targetChunk)
+      }
+      targetChunk.addBlock(block)
+    })
+  })
 }
 
 // from CommonsChunkPlugin (async methods):
