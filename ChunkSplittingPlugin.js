@@ -1,7 +1,7 @@
 // @ts-check
 "use strict"
 
-const {chunk: segregate, flatMap} = require('lodash')
+const {flatMap} = require('lodash')
 
 // UTILITY:
 /**
