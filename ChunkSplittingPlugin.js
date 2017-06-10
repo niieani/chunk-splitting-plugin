@@ -40,6 +40,7 @@ function divideSet(set, setSize) {
   let remainingItems = setSize
   const output = [thisSet]
   const iterator = set.values()
+  // @ts-ignore
   for (const value of iterator) {
     if (remainingItems === 0) {
       thisSet = new Set()
