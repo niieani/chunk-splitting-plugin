@@ -19,7 +19,7 @@ However, the splitting behavior is entirely configurable, via the `segregator` p
 
 ## Usage
 
-The simplest way to configure the plugin is to set `maxModulesPerChunk` and `maxModulesPerEntry`.
+Install it `npm install chunk-splitting-plugin` and then the simplest way to configure the plugin is to set `maxModulesPerChunk` and `maxModulesPerEntry`.
 
 ```js
 // webpack.config.js
