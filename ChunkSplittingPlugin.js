@@ -220,7 +220,7 @@ module.exports = class ChunkSplittingPlugin {
         const addedChunks = breakChunksIntoPieces(
           chunks.slice().filter(chunk => chunk.getNumberOfModules() > 0),
           compilation,
-          this.options,
+          this.options
         )
         return !!addedChunks.length
       })
