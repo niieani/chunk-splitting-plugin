@@ -217,8 +217,9 @@ module.exports = class ChunkSplittingPlugin {
 				if (compilation[this.ident]) return
 				compilation[this.ident] = true
 
+        const {chunkFilter} = this.options
         const addedChunks = breakChunksIntoPieces(
-          chunks.slice().filter(chunk => chunk.getNumberOfModules() > 0),
+          chunks.slice().filter(chunk => chunk.getNumberOfModules() > 0 && (!chunkFilter || chunkFilter(chunk))),
           compilation,
           this.options
         )
