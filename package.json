@@ -23,11 +23,11 @@
     "lodash": "^4.17.4"
   },
   "devDependencies": {
-    "@types/node": "^7.0.28",
+    "@types/node": "^8.0.0",
     "html-webpack-plugin": "^2.28.0",
     "semantic-release": "^6.3.2",
     "typescript": "next",
-    "webpack": "3.0.0-rc.1",
+    "webpack": "3.0.0",
     "webpack-dev-server": "^2.4.5"
   },
   "version": "0.0.0-development",
