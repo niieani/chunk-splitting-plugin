@@ -177,7 +177,7 @@ function breakChunksIntoPieces(chunksToSplit, compilation, {
       // connect to previous chunk
       // so that the topology is preserved
       // TODO: do we need this when async?
-      if (previousFreshChunk) {
+      if (!async && previousFreshChunk) {
         targetChunk.addParent(previousFreshChunk)
       }
 
@@ -217,7 +217,11 @@ module.exports = class ChunkSplittingPlugin {
 				if (compilation[this.ident]) return
 				compilation[this.ident] = true
 
-        const addedChunks = breakChunksIntoPieces(chunks.slice(), compilation, this.options)
+        const addedChunks = breakChunksIntoPieces(
+          chunks.slice().filter(chunk => chunk.getNumberOfModules() > 0),
+          compilation,
+          this.options,
+        )
         return !!addedChunks.length
       })
     })
