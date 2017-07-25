@@ -118,13 +118,13 @@ function extractOriginsOfChunkWithExtractedModules(chunk, reason = 'async common
 // from CommonsChunkPlugin (async methods):
 function extractOriginsOfChunksWithExtractedModules(chunks, reason) {
   return flatMap(
-    Array.from(chunks),
+    chunks,
     chunk => extractOriginsOfChunkWithExtractedModules(chunk, reason)
   )
 }
 
 function breakChunksIntoPieces(chunksToSplit, compilation, {
-  getPartName = (sourceChunk, idx, extractableModules) => sourceChunk.name && `${sourceChunk.name}-part-${leadingZeros(idx + 1, 2)}`,
+  getPartName = (sourceChunk, idx) => sourceChunk.name && `${sourceChunk.name}-part-${leadingZeros(idx + 1, 2)}`,
   maxModulesPerChunk = 100,
   maxModulesPerEntry = 1,
   segregator = 
@@ -161,7 +161,7 @@ function breakChunksIntoPieces(chunksToSplit, compilation, {
 
     // return new chunks
     return freshChunkModuleGroups.map((extractableModules, idx) => {
-      let targetName = getPartName(chunk, idx, extractableModules)
+      let targetName = getPartName(chunk, idx)
       const targetChunk = compilation.addChunk(targetName)
 
       // Remove modules that are moved to commons chunk from their original chunks
