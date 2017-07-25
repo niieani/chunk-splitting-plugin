@@ -118,7 +118,7 @@ function extractOriginsOfChunkWithExtractedModules(chunk, reason = 'async common
 // from CommonsChunkPlugin (async methods):
 function extractOriginsOfChunksWithExtractedModules(chunks, reason) {
   return flatMap(
-    Array.from(chunks),
+    chunks,
     chunk => extractOriginsOfChunkWithExtractedModules(chunk, reason)
   )
 }
