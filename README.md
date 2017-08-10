@@ -17,9 +17,19 @@ You could also use this as a production-time plugin in place of the (currently b
 
 However, the splitting behavior is entirely configurable, via the `segregator` parameter, which must be a function when provided. See [Customizing new chunks](#customizing-the-contents-of-new-chunks) for details.
 
+## Installation
+
+Install it with npm 
+
+`npm install chunk-splitting-plugin --save-dev`
+
+or with yarn
+
+`yarn add chunk-splitting-plugin --dev`
+
 ## Usage
 
-Install it `npm install chunk-splitting-plugin` and then the simplest way to configure the plugin is to set `maxModulesPerChunk` and `maxModulesPerEntry`.
+The simplest way to configure the plugin is to set `maxModulesPerChunk` and `maxModulesPerEntry`.
 
 ```js
 // webpack.config.js
