@@ -1,7 +1,7 @@
 {
   "name": "chunk-splitting-plugin",
   "engines": {
-    "node": ">=7"
+    "node": ">=6"
   },
   "files": [
     "ChunkSplittingPlugin.js"
