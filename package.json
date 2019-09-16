@@ -28,7 +28,7 @@
     "semantic-release": "^7.0.1",
     "typescript": "next",
     "webpack": "3.5.4",
-    "webpack-dev-server": "^2.4.5"
+    "webpack-dev-server": "^3.8.1"
   },
   "version": "0.0.0-development",
   "scripts": {
