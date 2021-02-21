@@ -1,3 +1,5 @@
+# DEPRECATED AND NO LONGER MAINTAINED. FUNCTIONALITY INCLUDED NATIVELY IN WEBPACK. PLEASE DO NOT USE.
+
 # ChunkSplittingPlugin for Webpack
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/niieani/chunk-splitting-plugin.svg)](https://greenkeeper.io/)
